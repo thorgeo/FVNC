@@ -510,7 +510,7 @@ public class RFBProtocol extends Socket {
 		}
 
 		// Handle sending modifiers as a separate key press
-		writeKeyModifiers( event );
+		writeKeyModifiers( event, true );
 
 		// Get the keySym value based on the key pressed
 		var keysym:uint = getKeySym( event );
@@ -538,7 +538,7 @@ public class RFBProtocol extends Socket {
 		}
 
 		// Handle sending modifiers as a separate key press
-		writeKeyModifiers( event );
+		writeKeyModifiers( event, false );
 
 		// Get the keySym value based on the key pressed
 		var keysym:uint = getKeySym( event );
@@ -554,22 +554,22 @@ public class RFBProtocol extends Socket {
 	 * shift, alt,  and indicate if the left or right one was
 	 * pressed.
 	 */
-	private function writeKeyModifiers( event:KeyboardEvent ):void
+	private function writeKeyModifiers( event:KeyboardEvent, down:Boolean ):void
 	{
 		if ( event.shiftKey )
 		{
 			// Determine which shift key was pressed
-			writeKeyEvent( event.keyLocation == KeyLocation.LEFT ? 0xFFE1 : 0xFFE2, false );
+			writeKeyEvent( event.keyLocation == KeyLocation.LEFT ? 0xFFE1 : 0xFFE2, down );
 		}
 		else if ( event.ctrlKey )
 		{
 			// Determine which control key was pressed
-			writeKeyEvent( event.keyLocation == KeyLocation.LEFT ? 0xFFE3 : 0xFFE4, false );
+			writeKeyEvent( event.keyLocation == KeyLocation.LEFT ? 0xFFE3 : 0xFFE4, down );
 		}
 		else if ( event.altKey )
 		{
 			// Determine which alt key was pressed
-			writeKeyEvent( event.keyLocation == KeyLocation.LEFT ? 0xFFE9 : 0xFFEA, false );
+			writeKeyEvent( event.keyLocation == KeyLocation.LEFT ? 0xFFE9 : 0xFFEA, down );
 		}
 	}
 
