@@ -669,7 +669,7 @@ public class RFBProtocol extends Socket {
 		else if ( event.delta > 0 )
 		{
 			// scroll up - button "4"
-			pointerMask |= 0x04;
+			pointerMask |= 0x08;
 		}
 
 		writeByte( pointerMask );
