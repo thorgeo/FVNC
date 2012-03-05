@@ -1,0 +1,34 @@
+<html>
+    <head>
+      <style>
+      * {
+          margin:0;
+          padding:0;
+      }
+      #content {
+          text-align:center;
+      }
+      </style>
+      <script type="text/javascript" src="swfobject.js"></script>
+      <script type="text/javascript" src="right_click.js"></script>
+    </head>
+    <body>
+      <div id="content"></div>
+
+      <script type="text/javascript">
+        var so = new SWFObject("FVNC.swf", "fvnc", "100%", "100%", '9', '');;
+        window.onload = function() {
+
+          so.addParam('allowFullScreen', 'true');
+          so.addParam('allowScriptAccess', 'always');
+          so.addParam('menu', false);
+          so.addParam('name', "idswf");
+          so.addParam("wmode", "opaque");
+          so.addParam('id', "fvnc");
+          so.write("content");
+
+          RightClick.init();
+        }
+      </script>
+    </body>
+</html>

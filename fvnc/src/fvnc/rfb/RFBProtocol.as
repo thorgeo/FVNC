@@ -646,7 +646,7 @@ public class RFBProtocol extends Socket {
 	 * Write either pointer movement or interaction
 	 * to the server.
 	 */
-	public function writePointerEvent( event:MouseEvent ):void
+	public function writePointerEvent( event:MouseEvent, rightClickDown:Boolean = false ):void
 	{
 		// Let the server know what kind of message is coming from the client
 		writeByte( Client.POINTER_EVENT );
@@ -659,6 +659,9 @@ public class RFBProtocol extends Socket {
 			pointerMask = 1;
 		}
 		// TODO: What do we do about middle and right mouse button?
+    if ( rightClickDown ){
+			pointerMask |= 0x04;
+    }
 
 		// Check for Mouse Scroll
 		if ( event.delta < 0 )

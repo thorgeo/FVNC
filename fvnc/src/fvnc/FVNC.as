@@ -30,6 +30,7 @@ import flash.events.ProgressEvent;
 import flash.geom.Rectangle;
 import flash.system.Security;
 import flash.utils.ByteArray;
+import flash.geom.Point;
 
 import fvnc.errors.ConnectionError;
 import fvnc.events.FVNCErrorEvent;
@@ -49,6 +50,7 @@ import mx.core.EdgeMetrics;
 import mx.core.UIComponent;
 
 import org.osflash.cryptography.DES;
+import flash.external.ExternalInterface;
 
 /**
  * Broadcast when the server requires a password to be entered.  Setting
@@ -690,6 +692,9 @@ public class FVNC extends Canvas
 		remoteScreen.addEventListener( MouseEvent.MOUSE_UP, handleMouseEvent );
 		remoteScreen.addEventListener( MouseEvent.MOUSE_WHEEL, handleMouseEvent );
 
+    // Quick Hack ( use JavaScript )
+    ExternalInterface.addCallback( "mouseRightClick", handleMouseRightClickEvent );
+
 		// Whenever a key is pressed, let the server know
 		addEventListener( KeyboardEvent.KEY_UP, handleKeyUp );
 		addEventListener( KeyboardEvent.KEY_DOWN, handleKeyDown );
@@ -751,6 +756,17 @@ public class FVNC extends Canvas
 		// Send the mouse event to the server
 		rfb.writePointerEvent( event );
 	}
+
+
+  private function handleMouseRightClickEvent():void
+  {
+    var event:MouseEvent = new MouseEvent("Mouse");
+    var pt:Point = new Point(this.mouseX, this.mouseY);
+    pt = remoteScreen.globalToContent(pt);
+    event.localX = pt.x;
+    event.localY = pt.y;
+    rfb.writePointerEvent( event, true );
+  }
 
 	/**
 	 * Event handler:  Called when we receive a key release.  Send the event
